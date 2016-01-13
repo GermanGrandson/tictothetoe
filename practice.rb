@@ -1,12 +1,19 @@
 
+
+
+
+
+
+
 class Board
-  attr_accessor :markers, :board
+  attr_accessor :warrior, :board, :spartan
   def initialize
-     @markers = Array.new(9)
      @board = [1,2,3,4,5,6,7,8,9]
+     @warrior = Array.new
+     @spatan = Array.new
   end
 
-  def assss
+  def start
     output = ""
       1.upto(9) do |position|
         output << " #{position} "
@@ -24,14 +31,9 @@ class Board
   def repeat
     puts "choose a spot"
     spot = gets.chomp.to_i
-    @board.map! { |x| x == spot ? 'X' : x }.flatten!
-    # @spaces.map! {|x|
-    # if (x == spot)
-    #   "X"
-    # else
-    #   x
-    # end}
-    # puts "#{@spaces}"
+    if @warrior[spot] == nil
+      @warrior[spot] = spot
+      @board.map! { |x| x == spot ? 'X' : x }.flatten!
         output = ""
           0.upto(8) do |position|
             output << " #{board[position]} "
@@ -40,12 +42,24 @@ class Board
               output << "|"
             when 2, 5
               output << "\n-----------\n"
-          end
+            end
         end
         puts output
+        # print @board
+        check
         repeat
-        end
+      else
+        puts "ERROR"
+        repeat
+      end
+  end
+
+    def check
+      if @board == ["X", "X", "X", 4, 5, 6, 7, 8, 9]
+        puts "gameover!"
+      end
+    end
   end
 
 
-Board.new.assss
+Board.new.start
