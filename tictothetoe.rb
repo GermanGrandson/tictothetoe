@@ -48,6 +48,7 @@ class Board
 
 #***************CHOSE SPOT AND CREATES BOARD AFTER CHOSING A SPOT*************
   def repeat(playa)
+        puts "\n"
         puts "choose a spot #{playa.name}"
         @spot = gets.chomp.to_i
         taken(playa)
@@ -174,7 +175,7 @@ end
 
 #********GET PLAYERS NAME****************
 def spartan
-    puts "What is your name"
+    puts "What is your name?"
     pname = gets.chomp.capitalize
     player1 = Player.new(pname, "X")
     kangaroo(player1)
@@ -183,11 +184,13 @@ end
 
 #*********GAME LOGIC*********************
 def kangaroo(player1)
+    puts "\n"
     puts "Will you be playing against a (H)uman or (C)omputer?"
     option = gets.chomp.downcase
         case option
         when "h", "human"
               players = Array.new
+              puts "\n"
               puts "What is the name of the 2nd Player?"
               sname = gets.chomp.capitalize
               player2 = Player.new(sname, "O")
@@ -203,6 +206,7 @@ def kangaroo(player1)
                       end
                   end
         when "c", "computer"
+              puts "\n"
               puts "Generating who goes first.."
               sleepy
               turn = rand(1..2)
