@@ -139,6 +139,8 @@ class Board
               case ace
               when "y", "yes"
                 welcome
+              when "n", "no"
+                abort
               end
           end
     end
