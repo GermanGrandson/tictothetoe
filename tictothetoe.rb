@@ -10,11 +10,12 @@ end
 
 #*****BOARD CLASS CREATES BOARD AND LOGIC*******
 class Board
-  attr_accessor :warrior, :board, :end
+  attr_accessor :warrior, :board, :end, :tie
   def initialize
      @board = [1,2,3,4,5,6,7,8,9]
      @warrior = Array.new(9)
      @end = false
+     @tie = false
   end
 
 #*******CREATES FIRST BOARD**********************
@@ -39,6 +40,7 @@ class Board
       if @warrior[@spot-1] == nil
         @warrior[@spot-1] = @spot
       else
+        puts "\n"
         puts "Spot's Taken! LOSE YOUR TURN" #IF YOU CHOSE A SPOT THAT'S ALREADY TAKEN YOU LOSE YOUR TURN!
         return
         repeat(playa)
@@ -72,8 +74,8 @@ class Board
 
 #*********CHOSE SPOT FOR COMPUTER AND CREATES BOARD*************
     def crepeat(playa)
-          @spot = rand(1..9)
-          taken(playa)
+          @spot = @board.select{|a| a.is_a?Integer}.sample
+                puts "\n"
                 puts "#{playa.name} chose #{@spot}"
                 @board.map! { |x| x == @spot ? "#{playa.symbol}" : x }.flatten!
                   output = ""
@@ -126,12 +128,15 @@ class Board
                   when ["X", "X", "X"] , ["O", "O", "O"]
                       @end = true
                   end
+                    if @board.all?{|letter| letter.is_a?String}
+                      @tie = true
+                    end
     end
 #*****************************************************
 
 #************GAMEOVER MESSAGE AND START OVER***********
     def gameover(winner)
-          if @end == true
+        if @end == true
         puts "\n\n"
         puts "GAMEOVER! #{winner.name} has won!"
         puts "Would you like to play again? (Y)es or (N)o?"
@@ -142,7 +147,23 @@ class Board
               when "n", "no"
                 abort
               end
-          end
+        elsif
+          @tie == true
+          puts "\n\n"
+          puts "TIE! You are both Winners!"
+          sleepy
+          puts "\n"
+          puts "I mean LOSERS!"
+          puts "\n"
+          puts "Would you like to play again? (Y)es or (N)o?"
+          ace = gets.chomp.downcase
+                case ace
+                when "y", "yes"
+                  welcome
+                when "n", "no"
+                  abort
+                end
+        end
     end
 #*****************************************************
 end #END OF CLASS
@@ -210,11 +231,14 @@ def kangaroo(player1)
         when "c", "computer"
               puts "\n"
               puts "Generating who goes first.."
+              puts "\n\n\n\n"
               sleepy
               turn = rand(1..2)
                   if turn == 1
+                    puts "\n"
                     puts "Computer goes first!"
                   else
+                    puts "\n"
                     puts "#{player1.name} goes first!"
                   end
               cname = "Computer"
@@ -236,7 +260,7 @@ def kangaroo(player1)
                     game.gameover(computer)
                   end
                       break if game.end
-                      end
+                       end
           else
             error
             kangaroo(player1)
